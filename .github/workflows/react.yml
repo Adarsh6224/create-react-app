@@ -37,11 +37,16 @@ jobs:
       run: |
         docker push 203918869233.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:latest
 
-    - name: Deploy Docker Container on EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-          docker pull 203918869233.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:latest
-          docker stop react-app || true
-          docker rm react-app || true
-          docker run -d --name react-app -p 3000:3000 203918869233.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:latest
-        EOF
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.0
+
+      with:
+        host: 44.212.24.103
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22 #${{ secrets.PORT }}
+        script: |
+          sudo docker stop my-container || true
+          sudo docker rm my-container || true
+          sudo docker pull 203918869233.dkr.ecr.us-east-1.amazonaws.com/gitaction-repo:latest
+          sudo docker run -d --name my-container -p 80:3000 203918869233.dkr.ecr.us-east-1.amazonaws.com/gitaction-repo:latest
