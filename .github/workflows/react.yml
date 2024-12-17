@@ -47,7 +47,7 @@ jobs:
         port: 22 #${{ secrets.PORT }}
         script: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 203918869233.dkr.ecr.us-east-1.amazonaws.com
-          sudo docker stop my-container || true
-          sudo docker rm my-container || true
-          sudo docker pull 203918869233.dkr.ecr.us-east-1.amazonaws.com/gitaction-repo:latest
-          sudo docker run -d --name my-container -p 3000:3000 203918869233.dkr.ecr.us-east-1.amazonaws.com/gitaction-repo:latest
+          docker stop my-container || true
+          docker rm my-container || true
+          docker pull 203918869233.dkr.ecr.us-east-1.amazonaws.com/gitaction-repo:latest
+          docker run -d --name my-container -p 3000:3000 203918869233.dkr.ecr.us-east-1.amazonaws.com/gitaction-repo:latest
