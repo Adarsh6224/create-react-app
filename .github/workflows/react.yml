@@ -46,6 +46,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22 #${{ secrets.PORT }}
         script: |
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 203918869233.dkr.ecr.us-east-1.amazonaws.com
           sudo docker stop my-container || true
           sudo docker rm my-container || true
           sudo docker pull 203918869233.dkr.ecr.us-east-1.amazonaws.com/gitaction-repo:latest
