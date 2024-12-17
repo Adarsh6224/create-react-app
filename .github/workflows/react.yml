@@ -50,4 +50,4 @@ jobs:
           sudo docker stop my-container || true
           sudo docker rm my-container || true
           sudo docker pull 203918869233.dkr.ecr.us-east-1.amazonaws.com/gitaction-repo:latest
-          sudo docker run -d --name my-container -p 80:3000 203918869233.dkr.ecr.us-east-1.amazonaws.com/gitaction-repo:latest
+          sudo docker run -d --name my-container -p 3000:3000 203918869233.dkr.ecr.us-east-1.amazonaws.com/gitaction-repo:latest
